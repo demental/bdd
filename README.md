@@ -89,162 +89,47 @@ end
 </pre>
 
 
-### Shared Steps
+## Basic & Shared Examples
 
-### Basic Example with shared steps
+<table>
+  <thead>
+    <tr>
+      <th>Basic Example</th>
+      <th>Shared 1</th>
+      <th>Shared 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href='https://github.com/thejamespinto/bdd/blob/master/spec/bdd/rspec_steps/basic_spec.rb'>basic_spec.rb</a>
+        <img src='http://cl.ly/image/0R3c1U3q2a3a/download/basic.png' />
+      </td>
+      <td>
+        <a href='https://github.com/thejamespinto/bdd/blob/master/spec/bdd/rspec_steps/shared_1_spec.rb'>shared_1_spec.rb</a>
+        <img src='http://cl.ly/image/3g3g3X1s3I15/download/shared1.png' />
+      </td>
+      <td>
+        <a href='https://github.com/thejamespinto/bdd/blob/master/spec/bdd/rspec_steps/shared_2_spec.rb'>shared_2_spec.rb</a>
+        <img src='http://cl.ly/image/2L3428303w0A/download/shared2.png' />
+      </td>
+    </tr>
+    <tr>
+      <td>Same Output</td>
+      <td>Same Output</td>
+      <td>Same Output</td>
+    </tr>
+    <tr>
+      <td><img src='http://cl.ly/image/1D2Q1m2I281v/download/outcome.png' />
+      </td>
+      <td><img src='http://cl.ly/image/1D2Q1m2I281v/download/outcome.png' />
+      </td>
+      <td><img src='http://cl.ly/image/1D2Q1m2I281v/download/outcome.png' />
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-You can refactor steps into methods using plain Ruby syntax.
-
-```ruby
-def given_I_log_in
-  Given "I log in" do
-    visit '/login'
-    fill_in 'Login', with: 'jack@example.com'
-    fill_in 'Password', with: 'password'
-    click_button "Log in"
-    expect(page).to have_content('Welcome jack@example.com')
-  end
-end
-
-def then_I_should_see_a_confirmation_message
-  Then "I should see a confirmation message" do
-    expect(page).to have_content('Your profile was updated successfully')
-  end
-end
-
-context 'User Flow' do
-  it 'User updates profile description' do
-    given_I_log_in
-    When 'I update profile description' do
-      ...
-    end
-    then_I_should_see_a_confirmation_message
-  end
-
-  it 'User updates profile avatar' do
-    given_I_log_in
-    When 'I update profile avatar' do
-      ...
-    end
-    then_I_should_see_a_confirmation_message
-  end
-end
-```
-Output:
-<pre>
-<b>User Flow</b>
-  <b>User updates profile description</b>
-    <b>Given</b> I log in
-    <b> When</b> I update profile description
-    <b> Then</b> I should see a confirmation message
-</pre>
-
-
-
-### Nested Example 1
-
-Outside of the scope
-
-Given is automatically inserted as a before
-Then is automatically inserted as an after
-
-```ruby
-Given "I log in" do
-  visit '/login'
-  fill_in 'Login', with: 'jack@example.com'
-  fill_in 'Password', with: 'password'
-  click_button "Log in"
-  expect(page).to have_content('Welcome jack@example.com')
-end
-
-Then "I should see a confirmation message" do
-  expect(page).to have_content('Your profile was updated successfully')
-end
-
-context 'User Flow' do
-  it 'User updates profile description' do
-    When 'I update profile description' do
-      ...
-    end
-  end
-
-  it 'User updates profile avatar' do
-    When 'I update profile avatar' do
-      ...
-    end
-  end
-end
-```
-Output:
-<pre>
-<b>User Flow</b>
-  <b>User updates profile description</b>
-    <b>Given</b> I log in
-    <b> When</b> I update profile description
-    <b> Then</b> I should see a confirmation message
-</pre>
-
-
-
-### Nested Example 2
-
-Nesting will silence any output from the internal steps
-
-```ruby
-def given_I_am_on_the_log_in_page
-  Given 'I am on the login page' do
-    visit '/login'
-  end
-end
-
-def when_I_submit_the_log_in_form
-  When 'I put credentials' do
-    fill_in 'Login', with: 'jack@example.com'
-    fill_in 'Password', with: 'password'
-    click_button "Log in"
-  end
-end
-
-def then_I_should_be_logged_in
-  Then 'I should be logged in' do
-    expect(page).to have_content('Welcome jack@example.com')
-  end
-end
-
-def given_I_log_in
-  Given "I log in" do
-    given_I_am_on_the_log_in_page
-    when_I_submit_the_log_in_form
-    then_I_should_be_logged_in
-  end
-end
-
-context 'User Flow' do
-  it 'User updates profile description' do
-    given_I_log_in
-    When 'I update profile description' do
-      ...
-    end
-    then_I_should_see_a_confirmation_message
-  end
-
-  it 'User updates profile avatar' do
-    given_I_log_in
-    When 'I update profile avatar' do
-      ...
-    end
-    then_I_should_see_a_confirmation_message
-  end
-end
-```
-Output:
-<pre>
-<b>User Flow</b>
-  <b>User updates profile description</b>
-    <b>Given</b> I log in
-    <b> When</b> I update profile description
-    <b> Then</b> I should see a confirmation message
-</pre>
 
 
 ### Renaming
