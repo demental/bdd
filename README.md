@@ -51,6 +51,11 @@ Or, if you want to use as your default formatter, simply put the options in your
 --color
 ```
 
+### Minitest
+
+TBD
+
+
 ## Output Example
 
 `spec/features/search_spec.rb`
